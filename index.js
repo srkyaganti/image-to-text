@@ -18,12 +18,20 @@
 
   const results = await Promise.all(promises);
 
-  results.map(([ result ]) => result)
-  .map(({ textAnnotations }) => textAnnotations)
-  .map(textAnnotations => textAnnotations.flat()
-    .map(({ description }) => description)
-    .map(e => e.replace(/\s+/g, ' ').trim())
-    .join(' ')
-  )
+  console.log(results[0]);
+  
+  results
+  .map(([ result ]) => result)
+  .map(({ fullTextAnnotation: { text } }) => text)
   .forEach((text, index) => fs.writeFileSync(`${OUTPUT_DIRECTORY}${files[index]}.txt`, text));
+
+  // results.map(([ result ]) => result)
+  // .map(({ textAnnotations }) => textAnnotations)
+  // .map(textAnnotations => textAnnotations
+  //   .map(({ description }) => description)
+  //   .map(e => e.replace(/\s+/g, ' ').trim())
+  //   .join(' ')
+  // )
+  // .forEach(e => console.log(e));
+  // .forEach((text, index) => fs.writeFileSync(`${OUTPUT_DIRECTORY}${files[index]}.txt`, text));
 })();
